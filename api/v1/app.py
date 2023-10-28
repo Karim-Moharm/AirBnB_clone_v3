@@ -5,9 +5,9 @@ import sys
 
 from flask import Flask, Blueprint
 from os import getenv
+from models import storage
 from api.v1.views import app_views
 # sys.path.append('../..')
-from models import storage
 
 app = Flask(__name__)
 app.register_blueprint(app_views, url_prefix="/api/v1")
