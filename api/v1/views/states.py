@@ -34,7 +34,7 @@ def delete_states_id(state_id):
     else:
         storage.delete(state)
         storage.save()
-        return jsonify({})
+        return jsonify({}), 200
 
 
 @app_views.route("/states/", methods=['POST'])
@@ -48,6 +48,7 @@ def post_states():
     storage.save()
     return(jsonify(state.to_dict())), 201
 
+
 @app_views.route("/states/<state_id>", methods=['PUT'])
 def update_states(state_id):
     if not request.get_json():
@@ -55,8 +56,7 @@ def update_states(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    state_dict = state.to_dict()
-    state_dict['name'] = request.json['name']
+    setattr(state, "name", request.json['name'])
     storage.save()
-    return jsonify(state_dict)
+    return jsonify(state.to_dict())
 
