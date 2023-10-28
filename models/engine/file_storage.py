@@ -82,11 +82,11 @@ class FileStorage:
                 if id == key.split('.')[-1]:
                     return value
         return None
-    
+
     def count(self, cls=None):
         if cls is None:
             obj_data = self.all()
         else:
             obj_data = self.all(cls)
         # print(len(obj_data))
-        return(len(obj_data))
+        return (len(obj_data))
