@@ -16,18 +16,6 @@ def status():
 def stats():
     """return json fromat of number of each objects by type
     """
-
-    # json_format = jsonify({
-    #     "amenities": storage.count(Amenity),
-    #     "cities": storage.count(City),
-    #     "places": storage.count(Place),
-    #     "reviews": storage.count(Review),
-    #     "states": storage.count(State),
-    #     "users": storage.count(User)
-    # })
-
-    # return json_format
-
     json_format = jsonify({
         "amenities": storage.count(our_models['Amenity']),
         "cities": storage.count(our_models['City']),

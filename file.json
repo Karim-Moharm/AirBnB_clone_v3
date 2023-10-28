@@ -81,5 +81,12 @@
         "updated_at": "2023-10-28T22:10:41.660909",
         "name": "California",
         "__class__": "State"
+    },
+    "State.f2bd671c-d42f-4bcd-83c0-c83cc10106e6": {
+        "name": "Cali",
+        "created_at": "2023-10-28T21:32:56.065449",
+        "updated_at": "2023-10-28T21:32:56.065453",
+        "id": "f2bd671c-d42f-4bcd-83c0-c83cc10106e6",
+        "__class__": "State"
     }
 }
