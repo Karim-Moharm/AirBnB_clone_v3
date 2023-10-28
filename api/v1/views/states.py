@@ -17,7 +17,16 @@ def get_states():
         states_list.append(item.to_dict())
     return jsonify(states_list)
 
-@app_views.route("/api/v1/states/<state_id>", methods=['GET'])
+
+@app_views.route("/states/<state_id>", methods=['GET'])
 def get_states_id(state_id):
     state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
     return jsonify(state.to_dict())
+    # return state
+
+    # for item in storage.all(State).values():
+    #     if item['id'] == state_id:
+    #         return item.to_dict()
+    # abort(404)
