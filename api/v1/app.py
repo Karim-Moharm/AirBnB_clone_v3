@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """import libraries"""
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, jsonify
 from os import getenv
 from models import storage
 from api.v1.views import app_views
-# sys.path.append('../..')
+from flask import make_response
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -14,6 +14,10 @@ app.register_blueprint(app_views)
 def close_session(exception):
     """close session"""
     storage.close()
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({"error": "Not found"}, 404)
 
 
 if __name__ == '__main__':
