@@ -30,3 +30,14 @@ def get_states_id(state_id):
     #     if item['id'] == state_id:
     #         return item.to_dict()
     # abort(404)
+
+
+@app_views.route("/states/<state_id>", methods=['DELETE'])
+def delete_states_id(state_id):
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    else:
+        storage.delete(state)
+        storage.save()
+        return jsonify({})

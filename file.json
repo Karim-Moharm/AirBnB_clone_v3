@@ -74,5 +74,12 @@
         "updated_at": "2023-10-22T22:26:03.278914",
         "id": "691bb5e8-bad5-4493-817f-bacf8def0f5d",
         "__class__": "City"
+    },
+    "State.e5c874a2-ce92-498b-965a-7b0d310b5a56": {
+        "id": "e5c874a2-ce92-498b-965a-7b0d310b5a56",
+        "created_at": "2023-10-28T22:10:41.660906",
+        "updated_at": "2023-10-28T22:10:41.660909",
+        "name": "California",
+        "__class__": "State"
     }
 }
