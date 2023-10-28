@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-
-
-import sys
-
+"""import libraries"""
 from flask import Flask, Blueprint
 from os import getenv
 from models import storage
@@ -15,6 +12,7 @@ app.register_blueprint(app_views, url_prefix="/api/v1")
 
 @app.teardown_appcontext
 def close_session(exception):
+    """close session"""
     storage.close()
 
 
