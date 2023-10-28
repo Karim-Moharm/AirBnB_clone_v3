@@ -46,14 +46,14 @@ def post_states():
     """create new state object
     """
     if not request.get_json():
-        abort(400, description="Not a JSON")
+        abort(400, "Not a JSON")
         # raise NotFound(description="Missing name")
-    json_data = request.get_json()
+    # json_data = request.get_json()
     if 'name' not in request.get_json():
-        abort(400, description="Missing name")
+        abort(400, "Missing name")
         # raise NotFound(description="Missing name")
-    # state = State(name=request.json['name'])
-    state = State(name=json_data['name'])
+    state = State(name=request.json['name'])
+    # state = State(name=json_data['name'])
     storage.new(state)
     storage.save()
     return (jsonify(state.to_dict())), 201
@@ -64,11 +64,11 @@ def update_states(state_id):
     """create new name for state object
     """
     if not request.get_json():
-        abort(400, description="Not a JSON")
-    json_data = request.get_json()
+        abort(400, "Not a JSON")
+    # json_data = request.get_json()
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    setattr(state, "name", json_data['name'])
+    setattr(state, "name", request.json['name'])
     storage.save()
     return jsonify(state.to_dict())
