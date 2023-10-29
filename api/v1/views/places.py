@@ -8,7 +8,7 @@ from models.all_models import our_models
 from models.place import Place
 from models.city import City
 
-
+@app_views.route('/cities/<city_id>/places/', methods=['GET'])
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
 def get_places(city_id):
     """return json format for cities object
@@ -23,6 +23,7 @@ def get_places(city_id):
     return jsonify(places_list)
 
 
+@app_views.route("/places/<place_id>/", methods=['GET'])
 @app_views.route("/places/<place_id>", methods=['GET'])
 def get_places_id(place_id):
     """get json format for specific id
@@ -32,7 +33,7 @@ def get_places_id(place_id):
         abort(404)
     return jsonify(place.to_dict())
 
-
+@app_views.route("places/<place_id>/", methods=['DELETE'])
 @app_views.route("places/<place_id>", methods=['DELETE'])
 def delete_places_id(place_id):
     """delete city object based on id
@@ -46,6 +47,7 @@ def delete_places_id(place_id):
         return jsonify({}), 200
 
 
+@app_views.route("cities/<city_id>/places/", methods=['POST'])
 @app_views.route("cities/<city_id>/places", methods=['POST'])
 def post_places(city_id):
     """create new city object
@@ -66,16 +68,21 @@ def post_places(city_id):
     return (jsonify(place.to_dict())), 201
 
 
+@app_views.route("/places/<place_id>/", methods=['PUT'])
 @app_views.route("/places/<place_id>", methods=['PUT'])
 def update_places(place_id):
     """create new name for city object
     """
+    args = ["name", "description", "number_rooms", "number_bathrooms"
+            "max_guest", "price_by_night", "latitude", "longitude", "amenity_ids"]
     if not request.get_json():
         abort(400, "Not a JSON")
     # json_data = request.get_json()
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    setattr(place, "name", request.json['name'])
+    for attr in args:
+        if attr in request.get_json():
+            setattr(place, attr, request.json[attr])
     storage.save()
     return jsonify(place.to_dict()), 200

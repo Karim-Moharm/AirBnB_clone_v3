@@ -69,6 +69,11 @@ def update_users(user_id):
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
-    setattr(user, "password", request.json['password'])
+    if "first_name" in request.get_json():
+        setattr(user, "first_name", request.json['first_name'])
+    if "last_name" in request.get_json():
+        setattr(user, "last_name", request.json['last_name'])
+    if "password" in request.get_json():
+        setattr(user, "password", request.json['password'])
     storage.save()
     return jsonify(user.to_dict()), 200
