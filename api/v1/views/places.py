@@ -10,7 +10,7 @@ from models.city import City
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
-def get_cities(city_id):
+def get_places(city_id):
     """return json format for cities object
     """
     places_list = []
@@ -24,7 +24,7 @@ def get_cities(city_id):
 
 
 @app_views.route("/places/<place_id>", methods=['GET'])
-def get_cities_id(place_id):
+def get_places_id(place_id):
     """get json format for specific id
     """
     place = storage.get(City, place_id)
@@ -34,7 +34,7 @@ def get_cities_id(place_id):
 
 
 @app_views.route("places/<place_id>", methods=['DELETE'])
-def delete_cities_id(place_id):
+def delete_places_id(place_id):
     """delete city object based on id
     """
     place = storage.get(City, place_id)
@@ -47,7 +47,7 @@ def delete_cities_id(place_id):
 
 
 @app_views.route("cities/<city_id>/places", methods=['POST'])
-def post_cities(city_id):
+def post_places(city_id):
     """create new city object
     """
     city = storage.get(City, city_id)
@@ -67,7 +67,7 @@ def post_cities(city_id):
 
 
 @app_views.route("/places/<place_id>", methods=['PUT'])
-def update_cities(place_id):
+def update_places(place_id):
     """create new name for city object
     """
     if not request.get_json():

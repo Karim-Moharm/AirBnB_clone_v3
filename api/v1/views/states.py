@@ -8,7 +8,7 @@ from models.all_models import our_models
 from models.state import State
 
 
-@app_views.route('/states/', methods=['GET'])
+@app_views.route('/states', methods=['GET'])
 def get_states():
     """return json format for states object
     """
