@@ -41,7 +41,7 @@ def delete_users_id(user_id):
         return jsonify({}), 200
 
 
-@app_views.route("/users/", methods=['POST'])
+@app_views.route("/users", methods=['POST'])
 def post_users():
     """create new user object
     """
