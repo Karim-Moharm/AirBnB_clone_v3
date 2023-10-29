@@ -8,7 +8,6 @@ from sqlalchemy.orm import relationship
 import models
 
 
-
 class Amenity(BaseModel, Base):
     """sub class that inherit from BaseModel
     """

@@ -20,7 +20,7 @@ class City(BaseModel, Base):
 
         # places = relationship("Place", backref="cities",
         #                     cascade="all, delete, save-update")
-        places = relationship("Place", backref="cities", cascade="all, delete")
+        places = relationship("Place", backref="cities")
     else:
         state_id = ""
         name = ""
