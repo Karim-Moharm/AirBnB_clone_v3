@@ -27,7 +27,7 @@ def get_places(city_id):
 def get_places_id(place_id):
     """get json format for specific id
     """
-    place = storage.get(City, place_id)
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     return jsonify(place.to_dict())
@@ -37,7 +37,7 @@ def get_places_id(place_id):
 def delete_places_id(place_id):
     """delete city object based on id
     """
-    place = storage.get(City, place_id)
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     else:
