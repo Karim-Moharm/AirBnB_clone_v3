@@ -110,5 +110,23 @@
         "updated_at": "2023-10-29T14:50:28.623373",
         "id": "06bcf326-76bd-4fe5-860c-99a0553c8d96",
         "__class__": "City"
+    },
+    "Amenity.4576ffd0-d3a9-425a-82f4-9bc9f3789c27": {
+        "id": "4576ffd0-d3a9-425a-82f4-9bc9f3789c27",
+        "created_at": "2023-10-29T17:03:45.267883",
+        "updated_at": "2023-10-29T17:03:45.267946",
+        "__class__": "Amenity"
+    },
+    "Amenity.0e82233e-e63f-4c66-ba14-97c7c3f58ff9": {
+        "id": "0e82233e-e63f-4c66-ba14-97c7c3f58ff9",
+        "created_at": "2023-10-29T17:03:56.196806",
+        "updated_at": "2023-10-29T17:03:56.196875",
+        "__class__": "Amenity"
+    },
+    "Amenity.2a4a7bc3-1675-47f4-887f-6f9e1f7abd98": {
+        "id": "2a4a7bc3-1675-47f4-887f-6f9e1f7abd98",
+        "created_at": "2023-10-29T17:03:56.923161",
+        "updated_at": "2023-10-29T17:03:56.923184",
+        "__class__": "Amenity"
     }
 }
