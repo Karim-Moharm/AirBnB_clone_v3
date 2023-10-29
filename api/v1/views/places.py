@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""module for city routes
+"""module for places routes
 """
 from api.v1.views import app_views
 from models import storage
@@ -11,14 +11,14 @@ from models.city import City
 @app_views.route('/cities/<city_id>/places/', methods=['GET'])
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
 def get_places(city_id):
-    """return json format for cities object
+    """return json format for places object
     """
     places_list = []
     for item in storage.all(Place).values():
         dict_item = item.to_dict()
         if dict_item['city_id'] == city_id:
             places_list.append(dict_item)
-    if places_list is None:
+    if places_list == []:
         abort(404)
     return jsonify(places_list)
 
@@ -50,7 +50,7 @@ def delete_places_id(place_id):
 @app_views.route("cities/<city_id>/places/", methods=['POST'])
 @app_views.route("cities/<city_id>/places", methods=['POST'])
 def post_places(city_id):
-    """create new city object
+    """create new place object
     """
     city = storage.get(City, city_id)
     if city is None:
@@ -71,7 +71,7 @@ def post_places(city_id):
 @app_views.route("/places/<place_id>/", methods=['PUT'])
 @app_views.route("/places/<place_id>", methods=['PUT'])
 def update_places(place_id):
-    """create new name for city object
+    """create new name for place object
     """
     args = ["name", "description", "number_rooms", "number_bathrooms"
             "max_guest", "price_by_night", "latitude", "longitude", "amenity_ids"]
