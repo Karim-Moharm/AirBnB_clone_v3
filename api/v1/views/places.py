@@ -8,6 +8,7 @@ from models.all_models import our_models
 from models.place import Place
 from models.city import City
 
+
 @app_views.route('/cities/<city_id>/places/', methods=['GET'])
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
 def get_places(city_id):
@@ -33,8 +34,9 @@ def get_places_id(place_id):
         abort(404)
     return jsonify(place.to_dict())
 
-@app_views.route("places/<place_id>/", methods=['DELETE'])
-@app_views.route("places/<place_id>", methods=['DELETE'])
+
+@app_views.route("/places/<place_id>/", methods=['DELETE'])
+@app_views.route("/places/<place_id>", methods=['DELETE'])
 def delete_places_id(place_id):
     """delete city object based on id
     """
@@ -47,8 +49,8 @@ def delete_places_id(place_id):
         return jsonify({}), 200
 
 
-@app_views.route("cities/<city_id>/places/", methods=['POST'])
-@app_views.route("cities/<city_id>/places", methods=['POST'])
+@app_views.route("/cities/<city_id>/places/", methods=['POST'])
+@app_views.route("/cities/<city_id>/places", methods=['POST'])
 def post_places(city_id):
     """create new place object
     """
@@ -62,7 +64,8 @@ def post_places(city_id):
     if 'user_id' not in request.get_json():
         abort(400, "Missing name")
 
-    place = Place(name=request.json['name'], city_id=city_id, user_id=request.json['user_id'])
+    place = Place(
+        name=request.json['name'], city_id=city_id, user_id=request.json['user_id'])
     storage.new(place)
     storage.save()
     return (jsonify(place.to_dict())), 201

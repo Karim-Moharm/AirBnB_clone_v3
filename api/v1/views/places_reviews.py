@@ -7,6 +7,7 @@ from flask import jsonify, abort, request
 from models.all_models import our_models
 from models.place import Place
 from models.review import Review
+from models.user import User
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'])
@@ -27,68 +28,71 @@ def get_reviews(place_id):
     return jsonify(review_list)
 
 
-# @app_views.route("/places/<place_id>/", methods=['GET'])
-# @app_views.route("/places/<place_id>", methods=['GET'])
-# def get_places_id(place_id):
-#     """get json format for specific id
-#     """
-#     place = storage.get(Place, place_id)
-#     if place is None:
-#         abort(404)
-#     return jsonify(place.to_dict())
+@app_views.route("/reviews/<review_id>/", methods=['GET'])
+@app_views.route("/reviews/<review_id>", methods=['GET'])
+def get_review_id(review_id):
+    """Review object
+    """
+    review = storage.get(Review, review_id)
+    if review is None:
+        abort(404)
+    return jsonify(review.to_dict())
 
 
-# @app_views.route("places/<place_id>/", methods=['DELETE'])
-# @app_views.route("places/<place_id>", methods=['DELETE'])
-# def delete_places_id(place_id):
-#     """delete city object based on id
-#     """
-#     place = storage.get(Place, place_id)
-#     if place is None:
-#         abort(404)
-#     else:
-#         storage.delete(place)
-#         storage.save()
-#         return jsonify({}), 200
+@app_views.route("/reviews/<review_id>/", methods=['DELETE'])
+@app_views.route("/reviews/<review_id>", methods=['DELETE'])
+def delete_review_id(review_id):
+    """delete review object based on id
+    """
+    review = storage.get(Review, review_id)
+    if review is None:
+        abort(404)
+    else:
+        storage.delete(review)
+        storage.save()
+        return jsonify({}), 200
 
 
-# @app_views.route("cities/<city_id>/places/", methods=['POST'])
-# @app_views.route("cities/<city_id>/places", methods=['POST'])
-# def post_places(city_id):
-#     """create new place object
-#     """
-#     city = storage.get(City, city_id)
-#     if city is None:
-#         abort(404)
-#     if not request.get_json():
-#         abort(400, "Not a JSON")
-#     if 'name' not in request.get_json():
-#         abort(400, "Missing user_id")
-#     if 'user_id' not in request.get_json():
-#         abort(400, "Missing name")
+@app_views.route("/places/<place_id>/reviews/", methods=['POST'])
+@app_views.route("/places/<place_id>/reviews", methods=['POST'])
+def post_review(place_id):
+    """create new review object
+    """
+    place = storage.get(Place, place_id)
+    if place is None:
+        abort(404)
+    if not request.get_json():
+        abort(400, "Not a JSON")
+    if 'user_id' not in request.get_json():
+        abort(400, "Missing user_id")
+    if 'user_id' not in request.get_json():
+        abort(400, "Missing name")
+    user = storage.get(User, request.json['user_id'])
+    if user is None:
+        abort(404)
+    if 'text' not in request.get_json():
+        abort(400, 'Missing text')
 
-#     place = Place(
-#         name=request.json['name'], city_id=city_id, user_id=request.json['user_id'])
-#     storage.new(place)
-#     storage.save()
-#     return (jsonify(place.to_dict())), 201
+    review = Review(
+        text=request.json['text'], place_id=place_id, user_id=request.json['user_id'])
+    storage.new(review)
+    storage.save()
+    return (jsonify(review.to_dict())), 201
 
 
-# @app_views.route("/places/<place_id>/", methods=['PUT'])
-# @app_views.route("/places/<place_id>", methods=['PUT'])
-# def update_places(place_id):
-#     """create new name for place object
-#     """
-#     args = ["name", "description", "number_rooms", "number_bathrooms"
-#             "max_guest", "price_by_night", "latitude", "longitude", "amenity_ids"]
-#     if not request.get_json():
-#         abort(400, "Not a JSON")
-#     # json_data = request.get_json()
-#     place = storage.get(Place, place_id)
-#     if place is None:
-#         abort(404)
-#     for attr in args:
-#         if attr in request.get_json():
-#             setattr(place, attr, request.json[attr])
-#     storage.save()
-#     return jsonify(place.to_dict()), 200
+@app_views.route("/reviews/<review_id>/", methods=['PUT'])
+@app_views.route("/reviews/<review_id>", methods=['PUT'])
+def update_reviews(review_id):
+    """create new name for place object
+    """
+    if not request.get_json():
+        abort(400, "Not a JSON")
+    # json_data = request.get_json()
+    review = storage.get(Review, review_id)
+    if review is None:
+        abort(404)
+
+    if "text" in request.get_json():
+        setattr(review, 'text', request.json['text'])
+    storage.save()
+    return jsonify(review.to_dict()), 200
