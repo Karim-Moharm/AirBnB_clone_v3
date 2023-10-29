@@ -21,8 +21,9 @@ class User(BaseModel, Base):
         #                     cascade="all, delete, save-update")
         # places = relationship("Place", backref="user",
         #                     cascade="all, delete, save-update")
-        places = relationship("Place", backref="user", cascade="all, delete")
-        reviews = relationship("Review", backref="user", cascade="all, delete")
+        places = relationship("Place", backref="user")
+        reviews = relationship("Review", backref="user")
+
     else:
         email = ""
         password = ""
