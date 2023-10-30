@@ -74,7 +74,8 @@ def post_review(place_id):
         abort(400, 'Missing text')
 
     review = Review(
-        text=request.json['text'], place_id=place_id, user_id=request.json['user_id'])
+        text=request.json['text'], place_id=place_id,
+        user_id=request.json['user_id'])
     storage.new(review)
     storage.save()
     return (jsonify(review.to_dict())), 201

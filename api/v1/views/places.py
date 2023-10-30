@@ -65,7 +65,8 @@ def post_places(city_id):
         abort(400, "Missing name")
 
     place = Place(
-        name=request.json['name'], city_id=city_id, user_id=request.json['user_id'])
+        name=request.json['name'], city_id=city_id,
+        user_id=request.json['user_id'])
     storage.new(place)
     storage.save()
     return (jsonify(place.to_dict())), 201
@@ -76,8 +77,10 @@ def post_places(city_id):
 def update_places(place_id):
     """create new name for place object
     """
-    args = ["name", "description", "number_rooms", "number_bathrooms"
-            "max_guest", "price_by_night", "latitude", "longitude", "amenity_ids"]
+    args = ["name", "description", "number_rooms",
+            "number_bathrooms", "max_guest",
+            "price_by_night", "latitude",
+            "longitude", "amenity_ids"]
     if not request.get_json():
         abort(400, "Not a JSON")
     # json_data = request.get_json()
