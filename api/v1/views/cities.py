@@ -14,6 +14,9 @@ def get_cities(state_id):
     """return json format for cities object
     """
     cities_list = []
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
     for item in storage.all(City).values():
         dict_item = item.to_dict()
         if dict_item['state_id'] == state_id:
