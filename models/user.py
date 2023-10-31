@@ -1,26 +1,21 @@
 #!/usr/bin/python3
-"""user sub-class that inherit from BaseModel
-"""
-from models.base_model import BaseModel, Base, Column, String
-from sqlalchemy.orm import relationship
-from models.review import Review
-from models.place import Place
+""" holds class User"""
 import models
+from models.base_model import BaseModel, Base
+from os import getenv
+import sqlalchemy
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
 
 class User(BaseModel, Base):
-    """sub class that inherit from BaseModel
-    """
-    if (models.storage_type == "db"):
-        __tablename__ = "users"
+    """Representation of a user """
+    if models.storage_t == 'db':
+        __tablename__ = 'users'
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
-        first_name = Column(String(128), nullable=False)
-        last_name = Column(String(128), nullable=False)
-        # reviews = relationship('Review', backref='user',
-        #                     cascade="all, delete, save-update")
-        # places = relationship("Place", backref="user",
-        #                     cascade="all, delete, save-update")
+        first_name = Column(String(128), nullable=True)
+        last_name = Column(String(128), nullable=True)
         places = relationship("Place", backref="user")
         reviews = relationship("Review", backref="user")
     else:
@@ -30,9 +25,5 @@ class User(BaseModel, Base):
         last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """the __init__ special method"""
+        """initializes user"""
         super().__init__(*args, **kwargs)
-
-    # def to_dict(self):
-    #     """method to return dict representation for the class"""
-    #     return super().to_dict()

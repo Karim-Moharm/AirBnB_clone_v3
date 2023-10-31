@@ -1,92 +1,70 @@
 #!/usr/bin/python3
-"""Storage module for storing the date as JSON format
+"""
+Contains the FileStorage class
 """
 
-from models.all_models import our_models
 import json
+from models.amenity import Amenity
+from models.base_model import BaseModel
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
+
+classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 
 class FileStorage:
-    """class sued for serialization and deserialization
+    """serializes instances to a JSON file & deserializes back to instances"""
 
-    Attrs:
-        file_path: path to the JSON file
-        objects: dictionary to store all objects
-    """
+    # string - path to the JSON file
     __file_path = "file.json"
+    # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
     def all(self, cls=None):
-        """returns the dictionary objects or list of objects
-        of one type of class if cls is not None
-        """
+        """returns the dictionary __objects"""
         if cls is not None:
-            obj = {}
+            new_dict = {}
             for key, value in self.__objects.items():
-                class_name, obj_id = key.split('.')
-                if class_name == cls.__name__:
-                    obj[key] = value
-            return (obj)
+                if cls == value.__class__ or cls == value.__class__.__name__:
+                    new_dict[key] = value
+            return new_dict
         return self.__objects
 
     def new(self, obj):
-        """sets in objects attribute the obj
-        with calssName.<id> as key
-        """
-        key = obj.__class__.__name__ + '.' + obj.id
-        self.__objects[key] = obj
+        """sets in __objects the obj with key <obj class name>.id"""
+        if obj is not None:
+            key = obj.__class__.__name__ + "." + obj.id
+            self.__objects[key] = obj
 
     def save(self):
-        """method used for converting python object into
-        JSON string
-        """
-        # convert_to_dict = {key: obj.to_dict() for key, obj
-        # in self.__objects.items()}
-        convert_to_dict = {}
-        for key, value in self.__objects.items():
-            convert_to_dict[key] = value.to_dict()
-        with open(self.__file_path, mode='w', encoding='utf-8') as fp:
-            json.dump(convert_to_dict, fp, indent=4)
+        """serializes __objects to the JSON file (path: __file_path)"""
+        json_objects = {}
+        for key in self.__objects:
+            json_objects[key] = self.__objects[key].to_dict()
+        with open(self.__file_path, 'w') as f:
+            json.dump(json_objects, f)
 
     def reload(self):
-        """method used for converting JSON strign into
-        python obect
-        """
+        """deserializes the JSON file to __objects"""
         try:
-            with open(self.__file_path, mode='r', encoding='utf-8') as fp:
-                data = json.load(fp)
-                for key, value in data.items():
-                    class_name, obj_id = key.split('.')
-                    obj = our_models[class_name](**value)
-                    self.__objects[key] = obj
-                    # self.__objects[key] = BaseModel(**value)
-        except FileNotFoundError:
+            with open(self.__file_path, 'r') as f:
+                jo = json.load(f)
+            for key in jo:
+                self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
+        except:
             pass
 
     def delete(self, obj=None):
-        """delete object from objects dictionary if it's not None
-        """
+        """delete obj from __objects if it’s inside"""
         if obj is not None:
             key = obj.__class__.__name__ + '.' + obj.id
             if key in self.__objects:
                 del self.__objects[key]
 
     def close(self):
-        """call reload method"""
+        """call reload() method for deserializing the JSON file to objects"""
         self.reload()
-
-    def get(self, cls, id):
-        if cls in our_models.values():
-            obj_data = self.all(cls)
-            for key, value in obj_data.items():
-                if id == key.split('.')[-1]:
-                    return value
-        return None
-
-    def count(self, cls=None):
-        if cls is None:
-            obj_data = self.all()
-        else:
-            obj_data = self.all(cls)
-        # print(len(obj_data))
-        return (len(obj_data))
