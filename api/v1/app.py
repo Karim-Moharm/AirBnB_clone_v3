@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """import libraries"""
 from flask import Flask, Blueprint, jsonify
-from os import getenv
+from os import getenv, environ
 from models import storage
 from api.v1.views import app_views
 from flask import make_response
@@ -27,12 +27,20 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    if getenv("HBNB_API_HOST") is None:
+    # if getenv("HBNB_API_HOST") is None:
+    #     HBNB_API_HOST = '0.0.0.0'
+    # else:
+    #     HBNB_API_HOST = getenv("HBNB_API_HOST")
+    # if getenv("HBNB_API_PORT") is None:
+    #     HBNB_API_PORT = 5000
+    # else:
+    #     HBNB_API_PORT = int(getenv("HBNB_API_PORT"))
+    if environ.get("HBNB_API_HOST") is None:
         HBNB_API_HOST = '0.0.0.0'
     else:
-        HBNB_API_HOST = getenv("HBNB_API_HOST")
-    if getenv("HBNB_API_PORT") is None:
+        HBNB_API_HOST = environ.get("HBNB_API_HOST")
+    if environ.get("HBNB_API_PORT") is None:
         HBNB_API_PORT = 5000
     else:
-        HBNB_API_PORT = int(getenv("HBNB_API_PORT"))
+        HBNB_API_PORT = int(environ.get("HBNB_API_PORT"))
     app.run(debug=True, host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
